@@ -1,106 +1,167 @@
-# Flask App — AWS ECS Deployment
+# Dockerized Flask Portfolio Application
 
-A minimal Flask web application built for learning containerization and deployment to **AWS ECS (Elastic Container Service)**.
+A modern portfolio web application built using **Flask** and containerized with **Docker**. This project demonstrates containerization of a Python web application and can be run locally using Docker.
 
-Part of the [TrainWithShubham](https://github.com/TrainWithShubham) — DevOps Zero To Hero course.
+## 🚀 Features
 
-![Python](https://img.shields.io/badge/Python-3.14-blue)
-![Flask](https://img.shields.io/badge/Flask-3.1.1-green)
-![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)
-![AWS ECS](https://img.shields.io/badge/AWS-ECS-FF9900)
+- Dynamic portfolio built with Flask
+- Responsive user interface
+- Displays:
+  - Professional Profile
+  - Technical Skills
+  - Internship Experience
+  - Cloud Projects
+- Dockerized for easy deployment
+- Lightweight and easy to run
 
-## Features
+---
 
-- Responsive landing page with modern glassmorphism UI
-- `/health` endpoint for ECS load balancer health checks
-- Two Dockerfiles — simple and multistage (distroless)
+## 🛠️ Tech Stack
 
-## Tech Stack
+- Python 3
+- Flask
+- HTML5
+- CSS3
+- Jinja2
+- Docker
 
-| Component | Technology |
-|-----------|------------|
-| Framework | Flask 3.1.1 |
-| Runtime   | Python 3.14 |
-| Container | Docker (python-slim / distroless) |
-| Deploy    | AWS ECS |
+---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
-flask-app-ecs/
-├── app.py                 # Flask app with routes
-├── run.py                 # Entry point (host 0.0.0.0, port 80)
-├── requirements.txt       # Python dependencies
-├── templates/
-│   └── index.html         # Landing page
-├── Dockerfile             # Simple single-stage build
-└── Dockerfile-multi       # Multistage build with distroless
+.
+├── app.py
+├── Dockerfile
+├── requirements.txt
+├── README.md
+└── templates
+    └── index.html
 ```
 
-## Quick Start
+---
 
-### Run locally
+## 📥 Clone the Repository
 
 ```bash
-pip install -r requirements.txt
-python run.py
+git clone https://github.com/Prafull-27/DevOps-.git
+cd DevOps-
 ```
 
-App runs at **http://localhost:80**.
+---
 
-### Run with Docker
-
-**Simple build:**
+## 🐳 Build Docker Image
 
 ```bash
-docker build -t flask-app .
-docker run -p 80:80 flask-app
+docker build -t flask-portfolio .
 ```
 
-**Multistage build (smaller, production-grade):**
+---
+
+## ▶️ Run Docker Container
+
+If your Dockerfile exposes **port 80**:
 
 ```bash
-docker build -f Dockerfile-multi -t flask-app .
-docker run -p 80:80 flask-app
+docker run -d -p 5000:80 flask-portfolio
 ```
 
-## Dockerfiles Explained
+If your application runs on **port 5000**:
 
-### Simple (`Dockerfile`)
+```bash
+docker run -d -p 5000:5000 flask-portfolio
+```
 
-Single-stage build using `python:3.14-slim`. Straightforward — copies everything, installs dependencies, runs the app. Good for development and learning.
+Open your browser:
 
-### Multistage (`Dockerfile-multi`)
+```
+http://localhost:5000
+```
 
-Two-stage build:
-1. **Builder stage** — installs dependencies into a separate directory using `python:3.14-slim`
-2. **Final stage** — copies only the app and deps into a `distroless` image
+---
 
-Benefits:
-- Smaller final image (no pip, no shell, no OS utilities)
-- Reduced attack surface — distroless images contain only the app and its runtime
-- Better layer caching — dependencies are copied before source code
+## 📸 Application Preview
 
-## Endpoints
+The application includes:
 
-| Route     | Method | Description                     |
-|-----------|--------|---------------------------------|
-| `/`       | GET    | Landing page                    |
-| `/health` | GET    | Health check (returns `Server is up and running`) |
+- 👨‍💻 Personal Information
+- ☁️ Cloud & DevOps Skills
+- 💼 Internship Experience
+- 🚀 Projects
+- 📚 Education
 
-## Deploy to AWS ECS
+---
 
-High-level steps to deploy this app on ECS:
+## 💻 Technologies Used
 
-1. **Push image to ECR**
-   ```bash
-   aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
-   docker tag flask-app:latest <account-id>.dkr.ecr.<region>.amazonaws.com/flask-app:latest
-   docker push <account-id>.dkr.ecr.<region>.amazonaws.com/flask-app:latest
-   ```
+### Programming
+- Python
+- Flask
 
-2. **Create ECS Task Definition** — specify the ECR image, port 80, memory/CPU limits
+### Cloud
+- AWS (EC2, IAM, VPC, S3, Lambda, CloudWatch, RDS)
 
-3. **Create ECS Service** — attach to a cluster, configure desired count, link to a load balancer
+### DevOps
+- Docker
+- Kubernetes
+- Terraform
 
-4. **Configure ALB** — target group pointing to port 80, use `/health` as the health check path
+### Networking
+- TCP/IP
+- DNS
+- Routing
+- VPC Security Groups
+
+---
+
+## 📋 Prerequisites
+
+- Docker Desktop or Docker Engine
+- Git
+
+Verify installation:
+
+```bash
+docker --version
+git --version
+```
+
+---
+
+## 🧹 Stop the Container
+
+```bash
+docker ps
+docker stop <container_id>
+```
+
+---
+
+## 🗑️ Remove the Container
+
+```bash
+docker rm <container_id>
+```
+
+---
+
+## 🗑️ Remove the Docker Image
+
+```bash
+docker rmi flask-portfolio
+```
+
+---
+
+## 👨‍💻 Author
+
+**Prafull Musale**
+
+- GitHub: https://github.com/Prafull-27
+- Email: prafullmusale01@gmail.com
+
+---
+
+## 📄 License
+
+This project is created for learning, Docker practice, and portfolio demonstration purposes.
